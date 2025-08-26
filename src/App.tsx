@@ -27,6 +27,9 @@ function App() {
 
   const [tasksArray, setTasksArray] = useState<Task[]>([]);
 
+  const activeTasks = tasksArray.filter((item) => !item.completed);
+  const completedTasks = tasksArray.filter((item) => item.completed);
+
   function toggleSection(section: SectionName) {
     setOpenSection((prev) => ({
       ...prev,
@@ -41,7 +44,9 @@ function App() {
     ]);
   }
 
-  console.log('задачки ', tasksArray);
+  console.log('весь список задач ', tasksArray);
+  console.log('невыполненные ', activeTasks);
+  console.log('выполненные ', completedTasks);
 
   return (
     <>
@@ -69,7 +74,7 @@ function App() {
             <button className="sort-button">By Date</button>
             <button className="sort-button">By Priority</button>
           </div>
-          {openSection.tasks && <TaskList />}
+          {openSection.tasks && <TaskList activeTasks={activeTasks} />}
         </div>
 
         <div className="completed-task-container">
@@ -80,7 +85,9 @@ function App() {
           >
             +
           </button>
-          {openSection.completedTasks && <CompletedTaskList />}
+          {openSection.completedTasks && (
+            <CompletedTaskList completedTasks={completedTasks} />
+          )}
         </div>
       </div>
     </>
@@ -142,30 +149,46 @@ function TaskForm({ addTask }: TaskFromProps) {
   );
 }
 
-function TaskList() {
+type TaskListProps = {
+  activeTasks: Task[];
+};
+
+function TaskList({ activeTasks }: TaskListProps) {
   return (
     <ul className="task-list">
-      <TaskItem />
+      {activeTasks.map((item) => (
+        <TaskItem key={item.id} task={item} />
+      ))}
     </ul>
   );
 }
 
-function CompletedTaskList() {
+type CompletedTaskListProps = {
+  completedTasks: Task[];
+};
+
+function CompletedTaskList({ completedTasks }: CompletedTaskListProps) {
   return (
     <ul className="completed-task-list">
-      <TaskItem />
+      {completedTasks.map((item) => (
+        <TaskItem key={item.id} task={item} />
+      ))}
     </ul>
   );
 }
 
-function TaskItem() {
+function TaskItem({ task }: { task: Task }) {
+  const { title, priority, deadline } = task;
+
   return (
-    <li className="task-item">
+    <li className={`task-item ${priority.toLowerCase()}`}>
       <div className="task-info">
         <div>
-          Title <strong>Medium</strong>
+          {title} <strong>{priority}</strong>
         </div>
-        <div className="task-deadline">Due: {new Date().toLocaleString()}</div>
+        <div className="task-deadline">
+          Due: {new Date(deadline).toLocaleString()}
+        </div>
       </div>
       <div className="task-buttons">
         <button className="complete-button">Complete</button>

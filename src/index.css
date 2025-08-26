@@ -114,13 +114,22 @@ h2 {
 
 /* Task Item */
 .task-item {
-  background: #e8f7ec;
   border-radius: 10px;
   padding: 12px 15px;
   margin-bottom: 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.task-item.low {
+  background: #e8f7ec;
+}
+.task-item.medium {
+  background: #f3f3dc;
+}
+.task-item.high {
+  background: #f7ebe8;
 }
 
 .task-info {
