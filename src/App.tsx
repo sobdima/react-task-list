@@ -24,10 +24,11 @@ function App() {
     tasks: true,
     completedTasks: true,
   });
-
   const [tasksArray, setTasksArray] = useState<Task[]>([]);
+  const [sortType, setSortType] = useState('date'); // priority
+  const [sortOrder, setSortOrder] = useState('asc'); //desc
 
-  const activeTasks = tasksArray.filter((item) => !item.completed);
+  const activeTasks = sortTasks(tasksArray.filter((item) => !item.completed));
   const completedTasks = tasksArray.filter((item) => item.completed);
 
   function toggleSection(section: SectionName) {
@@ -53,6 +54,34 @@ function App() {
         item.id === id ? { ...item, completed: true } : item
       )
     );
+  }
+
+  function toggleSortOrder(type: string): void {
+    if (sortType === type) {
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortType(type);
+      setSortOrder('asc');
+    }
+  }
+
+  function sortTasks(tasksArray: Task[]) {
+    const priorityOrder: Record<string, number> = {
+      High: 1,
+      Medium: 2,
+      Low: 3,
+    };
+    return tasksArray.slice().sort((a, b) => {
+      if (sortType === 'priority') {
+        return sortOrder === 'asc'
+          ? priorityOrder[a.priority] - priorityOrder[b.priority]
+          : priorityOrder[b.priority] - priorityOrder[a.priority];
+      } else {
+        return sortOrder === 'asc'
+          ? new Date(a.deadline).getTime() - new Date(b.deadline).getTime()
+          : new Date(b.deadline).getTime() - new Date(a.deadline).getTime();
+      }
+    });
   }
 
   console.log('весь список задач ', tasksArray);
@@ -82,8 +111,22 @@ function App() {
             +
           </button>
           <div className="sort-controls">
-            <button className="sort-button">By Date</button>
-            <button className="sort-button">By Priority</button>
+            <button
+              className={`sort-button ${sortType === 'date' ? 'active' : ''}`}
+              onClick={() => toggleSortOrder('date')}
+            >
+              By Date{' '}
+              {sortType === 'date' &&
+                (sortOrder === 'asc' ? '\u2191' : '\u2193')}
+            </button>
+            <button
+              className={`sort-button ${sortType === 'priority' ? 'active' : ''}`}
+              onClick={() => toggleSortOrder('priority')}
+            >
+              By Priority{' '}
+              {sortType === 'priority' &&
+                (sortOrder === 'asc' ? '\u2193' : '\u2191')}
+            </button>
           </div>
           {openSection.tasks && (
             <TaskList
@@ -216,16 +259,14 @@ function CompletedTaskList({
   );
 }
 
-//можно типом прописать наверное, как выше прописано у TaskList и CompletedTaskList
-function TaskItem({
-  task,
-  deleteTask,
-  completeTask,
-}: {
+//можно здесь прописать ТИП, наверное, как выше прописано у TaskList и CompletedTaskList
+type TaskItemProps = {
   task: Task;
   deleteTask: (id: number) => void;
   completeTask: (id: number) => void;
-}) {
+};
+
+function TaskItem({ task, deleteTask, completeTask }: TaskItemProps) {
   const { title, priority, deadline, id, completed } = task;
 
   return (

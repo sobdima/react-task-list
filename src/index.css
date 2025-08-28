@@ -104,6 +104,10 @@ h2 {
   background: #d1d5db;
 }
 
+.sort-button.active {
+  background: #d1d5db;
+}
+
 /* Task List */
 .task-list,
 .completed-task-list {
