@@ -1,4 +1,7 @@
-import { useState, type FormEvent } from 'react';
+import { useState } from 'react';
+import TaskForm from './components/TaskForm/TaskForm';
+import TaskList from './components/TaskList/TaskList';
+import CompletedTaskList from './components/CompletedTaskList/CompletedTaskList';
 
 type SectionName = 'taskList' | 'tasks' | 'completedTasks';
 
@@ -8,7 +11,7 @@ interface SectionsState {
   completedTasks: boolean;
 }
 
-interface Task {
+export interface Task {
   id: number;
   title: string;
   priority: string;
@@ -16,7 +19,7 @@ interface Task {
   completed: boolean;
 }
 
-type TaskCreateInput = Omit<Task, 'id' | 'completed'>;
+export type TaskCreateInput = Omit<Task, 'id' | 'completed'>;
 
 function App() {
   const [openSection, setOpenSection] = useState<SectionsState>({
@@ -155,142 +158,6 @@ function App() {
         </div>
       </div>
     </>
-  );
-}
-
-interface TaskFromProps {
-  addTask: (task: TaskCreateInput) => void;
-}
-
-function TaskForm({ addTask }: TaskFromProps) {
-  const [title, setTitle] = useState('');
-  const [priority, setPriority] = useState('Low');
-  const [deadline, setDeadline] = useState('');
-
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    if (title.trim() && deadline) {
-      addTask({ title, priority, deadline });
-      setTitle('');
-      setPriority('Low');
-      setDeadline('');
-    }
-  }
-
-  return (
-    <>
-      <form action="" className="task-form" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={title}
-          placeholder="task title"
-          required
-          onChange={(e) => {
-            setTitle(e.target.value);
-          }}
-        />
-        <select
-          value={priority}
-          onChange={(e) => {
-            setPriority(e.target.value);
-          }}
-        >
-          <option value="Low">Low</option>
-          <option value="Medium">Medium</option>
-          <option value="High">High</option>
-        </select>
-        <input
-          type="datetime-local"
-          value={deadline}
-          required
-          onChange={(e) => {
-            setDeadline(e.target.value);
-          }}
-        />
-        <button type="submit">Add Task</button>
-      </form>
-    </>
-  );
-}
-
-type TaskListProps = {
-  activeTasks: Task[];
-  deleteTask: (id: number) => void;
-  completeTask: (id: number) => void;
-};
-
-function TaskList({ activeTasks, deleteTask, completeTask }: TaskListProps) {
-  return (
-    <ul className="task-list">
-      {activeTasks.map((item) => (
-        <TaskItem
-          key={item.id}
-          task={item}
-          deleteTask={deleteTask}
-          completeTask={completeTask}
-        />
-      ))}
-    </ul>
-  );
-}
-
-type CompletedTaskListProps = {
-  completedTasks: Task[];
-  deleteTask: (id: number) => void;
-  completeTask: (id: number) => void;
-};
-
-function CompletedTaskList({
-  completedTasks,
-  deleteTask,
-  completeTask,
-}: CompletedTaskListProps) {
-  return (
-    <ul className="completed-task-list">
-      {completedTasks.map((item) => (
-        <TaskItem
-          key={item.id}
-          task={item}
-          deleteTask={deleteTask}
-          completeTask={completeTask}
-        />
-      ))}
-    </ul>
-  );
-}
-
-//можно здесь прописать ТИП, наверное, как выше прописано у TaskList и CompletedTaskList
-type TaskItemProps = {
-  task: Task;
-  deleteTask: (id: number) => void;
-  completeTask: (id: number) => void;
-};
-
-function TaskItem({ task, deleteTask, completeTask }: TaskItemProps) {
-  const { title, priority, deadline, id, completed } = task;
-
-  return (
-    <li className={`task-item ${priority.toLowerCase()}`}>
-      <div className="task-info">
-        <div>
-          {title} <strong>{priority}</strong>
-        </div>
-        <div className="task-deadline">
-          Due: {new Date(deadline).toLocaleString()}
-        </div>
-      </div>
-      <div className="task-buttons">
-        {!completed && (
-          <button className="complete-button" onClick={() => completeTask(id)}>
-            Complete
-          </button>
-        )}
-
-        <button className="delete-button" onClick={() => deleteTask(id)}>
-          Delete
-        </button>
-      </div>
-    </li>
   );
 }
 
