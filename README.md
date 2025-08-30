@@ -1,6 +1,6 @@
 # React Task List
 
-🔗 **Live Demo:** [Task List](https://link/)
+🔗 **Live Demo:** [Task List](https://sobdima-task-list.netlify.app/)
 
 ---
 
@@ -12,11 +12,11 @@ This is a simple TO DO List built with **React**.
 
 ## 🚀 How to Run the Project Locally
 
-Follow these steps to clone and run the calculator on your computer:
+Follow these steps to clone and run the project on your computer:
 
 1. **Clone the repository**
    ```bash
-   git clone link
+   git clone https://github.com/sobdima/react-task-list.git
    ```
 2. **Navigate into the project folder**
    ```bash
