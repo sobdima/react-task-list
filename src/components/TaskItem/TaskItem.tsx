@@ -1,4 +1,4 @@
-import type { Task } from '../../App';
+import type { Task } from '../../types';
 
 type TaskItemProps = {
   task: Task;
