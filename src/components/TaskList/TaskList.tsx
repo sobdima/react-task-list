@@ -1,5 +1,6 @@
 import { type Task } from '../../types';
 import { TaskItem } from '../TaskItem/TaskItem';
+import { Button } from '../ui/Button';
 
 type TaskListProps = {
   activeTasks: Task[];
@@ -25,29 +26,32 @@ function TaskList({
   return (
     <div className="task-container">
       <h2>Tasks</h2>
-      <button
+
+      <Button
         className={`close-button ${open ? 'open' : ''}`}
         onClick={toggleSection}
       >
         +
-      </button>
+      </Button>
+
       <div className="sort-controls">
-        <button
+        <Button
           className={`sort-button ${sortType === 'date' ? 'active' : ''}`}
           onClick={() => toggleSortOrder('date')}
         >
           By Date{' '}
           {sortType === 'date' && (sortOrder === 'asc' ? '\u2191' : '\u2193')}
-        </button>
-        <button
+        </Button>
+        <Button
           className={`sort-button ${sortType === 'priority' ? 'active' : ''}`}
           onClick={() => toggleSortOrder('priority')}
         >
           By Priority{' '}
           {sortType === 'priority' &&
             (sortOrder === 'asc' ? '\u2193' : '\u2191')}
-        </button>
+        </Button>
       </div>
+
       {open && (
         <ul className="task-list">
           {activeTasks.map((item) => (

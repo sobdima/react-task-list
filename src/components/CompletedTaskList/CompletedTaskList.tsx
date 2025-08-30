@@ -1,5 +1,6 @@
 import type { Task } from '../../types';
 import { TaskItem } from '../TaskItem/TaskItem';
+import { Button } from '../ui/Button';
 
 type CompletedTaskListProps = {
   completedTasks: Task[];
@@ -19,12 +20,12 @@ function CompletedTaskList({
   return (
     <div className="completed-task-container">
       <h2>Completed Tasks</h2>
-      <button
+      <Button
         className={`close-button ${open ? 'open' : ''}`}
         onClick={toggleSection}
       >
         +
-      </button>
+      </Button>
       {open && (
         <ul className="completed-task-list">
           {completedTasks.map((item) => (

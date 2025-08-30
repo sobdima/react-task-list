@@ -82,6 +82,13 @@ h2 {
   background: #1d4ed8;
 }
 
+/* Task List */
+.task-list,
+.completed-task-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 /* Sorting */
 .sort-controls {
   display: flex;
@@ -106,14 +113,6 @@ h2 {
 
 .sort-button.active {
   background: #d1d5db;
-}
-
-/* Task List */
-.task-list,
-.completed-task-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
 }
 
 /* Task Item */

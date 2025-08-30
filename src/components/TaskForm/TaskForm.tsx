@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { type TaskCreateInput } from '../../types';
+import { Button } from '../ui/Button';
 
 export interface TaskFromProps {
   addTask: (task: TaskCreateInput) => void;
@@ -25,12 +26,14 @@ function TaskForm({ addTask, toggleSection, open }: TaskFromProps) {
   return (
     <div className="task-container">
       <h1>Task List Priority</h1>
-      <button
+
+      <Button
         className={`close-button ${open ? 'open' : ''}`}
         onClick={toggleSection}
       >
         +
-      </button>
+      </Button>
+
       {open && (
         <form action="" className="task-form" onSubmit={handleSubmit}>
           <input
@@ -60,7 +63,7 @@ function TaskForm({ addTask, toggleSection, open }: TaskFromProps) {
               setDeadline(e.target.value);
             }}
           />
-          <button type="submit">Add Task</button>
+          <Button type={'submit'}>Add Task</Button>
         </form>
       )}
     </div>
