@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react';
-import { type TaskCreateInput } from '../../App';
+import { type TaskCreateInput } from '../../types';
 
 export interface TaskFromProps {
   addTask: (task: TaskCreateInput) => void;

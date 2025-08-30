@@ -2,24 +2,12 @@ import { useState } from 'react';
 import TaskForm from './components/TaskForm/TaskForm';
 import TaskList from './components/TaskList/TaskList';
 import CompletedTaskList from './components/CompletedTaskList/CompletedTaskList';
-
-type SectionName = 'taskList' | 'tasks' | 'completedTasks';
-
-interface SectionsState {
-  taskList: boolean;
-  tasks: boolean;
-  completedTasks: boolean;
-}
-
-export interface Task {
-  id: number;
-  title: string;
-  priority: string;
-  deadline: string;
-  completed: boolean;
-}
-
-export type TaskCreateInput = Omit<Task, 'id' | 'completed'>;
+import type {
+  SectionName,
+  SectionsState,
+  Task,
+  TaskCreateInput,
+} from './types';
 
 function App() {
   const [openSection, setOpenSection] = useState<SectionsState>({
@@ -51,6 +39,7 @@ function App() {
   function deleteTask(id: number) {
     setTasksArray(tasksArray.filter((item) => item.id !== id));
   }
+
   function completeTask(id: number) {
     setTasksArray(
       tasksArray.map((item) =>
