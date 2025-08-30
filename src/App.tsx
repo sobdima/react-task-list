@@ -87,23 +87,14 @@ function App() {
     });
   }
 
-  console.log('весь список задач ', tasksArray);
-  console.log('невыполненные ', activeTasks);
-  console.log('выполненные ', completedTasks);
-
   return (
     <>
       <div className="app">
-        <div className="task-container">
-          <h1>Task List Priority</h1>
-          <button
-            className={`close-button ${openSection.taskList ? 'open' : ''}`}
-            onClick={() => toggleSection('taskList')}
-          >
-            +
-          </button>
-          {openSection.taskList && <TaskForm addTask={addTask} />}
-        </div>
+        <TaskForm
+          addTask={addTask}
+          toggleSection={() => toggleSection('taskList')}
+          open={openSection.taskList}
+        />
 
         <TaskList
           activeTasks={activeTasks}
