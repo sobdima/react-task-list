@@ -105,57 +105,24 @@ function App() {
           {openSection.taskList && <TaskForm addTask={addTask} />}
         </div>
 
-        <div className="task-container">
-          <h2>Tasks</h2>
-          <button
-            className={`close-button ${openSection.tasks ? 'open' : ''}`}
-            onClick={() => toggleSection('tasks')}
-          >
-            +
-          </button>
-          <div className="sort-controls">
-            <button
-              className={`sort-button ${sortType === 'date' ? 'active' : ''}`}
-              onClick={() => toggleSortOrder('date')}
-            >
-              By Date{' '}
-              {sortType === 'date' &&
-                (sortOrder === 'asc' ? '\u2191' : '\u2193')}
-            </button>
-            <button
-              className={`sort-button ${sortType === 'priority' ? 'active' : ''}`}
-              onClick={() => toggleSortOrder('priority')}
-            >
-              By Priority{' '}
-              {sortType === 'priority' &&
-                (sortOrder === 'asc' ? '\u2193' : '\u2191')}
-            </button>
-          </div>
-          {openSection.tasks && (
-            <TaskList
-              deleteTask={deleteTask}
-              activeTasks={activeTasks}
-              completeTask={completeTask}
-            />
-          )}
-        </div>
+        <TaskList
+          activeTasks={activeTasks}
+          deleteTask={deleteTask}
+          completeTask={completeTask}
+          toggleSection={() => toggleSection('tasks')}
+          toggleSortOrder={toggleSortOrder}
+          sortType={sortType}
+          sortOrder={sortOrder}
+          open={openSection.tasks}
+        />
 
-        <div className="completed-task-container">
-          <h2>Completed Tasks</h2>
-          <button
-            className={`close-button ${openSection.completedTasks ? 'open' : ''}`}
-            onClick={() => toggleSection('completedTasks')}
-          >
-            +
-          </button>
-          {openSection.completedTasks && (
-            <CompletedTaskList
-              deleteTask={deleteTask}
-              completeTask={completeTask}
-              completedTasks={completedTasks}
-            />
-          )}
-        </div>
+        <CompletedTaskList
+          deleteTask={deleteTask}
+          completeTask={completeTask}
+          completedTasks={completedTasks}
+          open={openSection.completedTasks}
+          toggleSection={() => toggleSection('completedTasks')}
+        />
       </div>
     </>
   );
